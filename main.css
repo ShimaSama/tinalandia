@@ -1,0 +1,182 @@
+/*NAV*/
+
+#navbarNav{
+
+    padding-right: 3em;
+
+}
+
+.jumbutron{
+
+    height: 100vh;
+    
+}
+
+.name{
+
+    padding-left: 2em;
+    padding-top: 0.7em !important;
+    color: rgb(243, 172, 145) !important;
+}
+
+@keyframes colorchange {
+    from { color: rgb(247, 136, 85); }
+
+    to { color: rgb(255, 255, 255); }
+}
+
+body.web{
+
+    background-color:rgb(26, 26, 26);
+    font-family: "Roboto Mono" !important;
+}
+
+a:link{
+    color: rgb(247, 136, 85)!important;
+
+}
+a:visited{
+    color: rgb(247, 136, 85)!important;
+
+}
+a:hover {
+    color:rgb(243, 172, 145) !important;
+}
+
+.card{
+    margin: auto;
+    padding: 1em;
+
+}
+.pad{
+    
+    padding-bottom: 3em;
+}
+.btn-primary{
+
+    background-color: rgb(26, 26, 26)!important;
+    border-color: rgb(247, 136, 85)!important;
+}
+
+
+@media (max-width:576px) {
+    #carouselExampleCaptions {
+        display:none !important;
+    }
+}
+
+th{
+
+ color: rgb(241, 171, 131);
+}
+tr {
+    
+    text-align:center;
+}
+p{
+    color: white;
+    text-align: center;
+}
+ul{
+    color: white;
+    list-style-type: none;
+    
+}
+h3
+{
+    color: rgb(240, 188, 146);
+    text-align: center;
+    padding: 1EM;
+
+}
+
+h1{
+    animation-name: colorchange;
+    animation-duration: 5s;
+    display: inline;
+    color: rgb(255, 255, 255);
+    padding: 7em;
+    text-align: center;
+    
+}
+
+.arrow{
+  
+    width: 50px;
+   padding-top: 2em;
+   padding-bottom: 10em;
+
+    
+}
+
+/*-----login-------*/
+.simple-login-container{
+    width:300px;
+    max-width:100%;
+    margin:50px auto;
+}
+.simple-login-container h2{
+    text-align:center;
+    font-size:20px;
+}
+.form-group{
+    padding: 1em;
+}
+
+.simple-login-container .btn-login{
+    
+    
+    background-color:#212529;
+    color:white;
+}
+a{
+    color:#fff;
+}
+h2{
+    color:white;
+}
+
+/* fooooter */
+.footer-dark {
+    padding:50px 0;
+    color:#f0f9ff;
+    background-color:#212529;
+  }
+  
+.footer-dark .item.social {
+    text-align:center;
+}
+  
+@media (max-width:991px) {
+    .footer-dark .item.social {
+      text-align:center;
+      margin-top:20px;
+    }
+}
+  
+.footer-dark .item.social > a {
+    font-size:20px;
+    width:36px;
+    height:36px;
+    line-height:36px;
+    display:inline-block;
+    text-align:center;
+    border-radius:50%;
+    box-shadow:0 0 0 1px rgba(255,255,255,0.4);
+    margin:0 8px;
+    color:#fff;
+    opacity:0.75;
+}
+  
+.footer-dark .item.social > a:hover {
+    color:rgb(248, 148, 131);
+    opacity:0.9;
+}
+  
+.footer-dark .copyright {
+    text-align:center;
+    padding-top:24px;
+    opacity:0.3;
+    font-size:13px;
+    margin-bottom:0;
+}
