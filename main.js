@@ -1,135 +1,224 @@
+
+
+
 function isEmpty(str) {
    return (!str.trim().length || str === null); //mirar tambien fdf.value === null
 }
 
 window.addEventListener("load", () => {
    document.getElementById("form")
-       .addEventListener('submit', handleSubmitGetFormData); 
+      .addEventListener('submit', handleSubmitGetFormData);
 });
 
 window.addEventListener("load", () => {
    document.getElementById("reg")
-       .addEventListener('submit', handleRegister); 
+      .addEventListener('submit', handleRegister);
 });
 
+window.addEventListener("load", () => {
+   document.getElementById("addcard")
+      .addEventListener('submit', handleAddCard);
+});
+
+const handleAddCard = e => {
+ 
+   e.preventDefault();
+
+   var element = document.getElementById('form-alert');
+   var wrapper = document.getElementById('addcard');
+   var photo = document.getElementById("photo").value;
+   var price = document.getElementById("price").value;
+   var title = document.getElementById("title").value;
+   var contact = document.getElementById("contact").value;
+
+   var fields = [photo,price,title,contact]
+   console.log(fields)
+
+
+   fields.pop(); // eliminem el botó
+
+   if (isEmpty(photo) || isEmpty(title) || isEmpty(price) || isEmpty(contact)) {
+      alert("¡You forgot something!");
+   }
+
+   let json = { url:photo, title:title, price:price, contact:contact} 
+   axios.post(`https://tinalandia.herokuapp.com/cards`, json)
+   .then(response => {
+      alert(`Card added`)
+      location.reload();
+   })
+   .catch(err => {
+      console.log(err)
+   })
+  
+};
+
+
 const handleRegister = e => {
-   cleanAlert();
+ 
    e.preventDefault();
 
    var element = document.getElementById('form-alert');
    var wrapper = document.getElementById('reg');
+   var email = document.getElementById("email").value;
    var username = document.getElementById("username").value;
    var password = document.getElementById("password").value;
    var password2 = document.getElementById("password2").value;
 
-   var fields = [username,password,password2]
+   var fields = [username, email, password, password2]
 
    const popAlert = (str) => {
-       if(element) return;
-       var section = document.createElement('section');
-       var alert = document.createElement('div');
-       section.id = "form-alert";
-       section.className = "col-10";
-       alert.className = "alert alert-danger text-center";
-       alert.innerHTML = str;
-       section.appendChild(alert);
-       wrapper.insertBefore(section, wrapper.lastChild);
+      if (element) return;
+      var section = document.createElement('section');
+      var alert = document.createElement('div');
+      section.id = "form-alert";
+      section.className = "col-10";
+      alert.className = "alert alert-danger text-center";
+      alert.innerHTML = str;
+      section.appendChild(alert);
+      wrapper.insertBefore(section, wrapper.lastChild);
    };
-   
+
    const cleanAlert = () => {
-       if(!element) return;
-       wrapper.removeChild(element);
+      if (!element) return;
+      wrapper.removeChild(element);
    };
+
 
    fields.pop(); // eliminem el botó
-   
-   if(isEmpty(username)  || isEmpty(password)|| isEmpty(password2)){
-      return popAlert("¡You forgot something!");
-   }else cleanAlert();
-   if(password!=password2){
-      return popAlert("¡Your password doesn't match!");
-   }else cleanAlert();
-  //hacer control de user
-  window.location.href = "web.html"
 
+   if (isEmpty(username) || isEmpty(password) || isEmpty(password2) || isEmpty(email)) {
+      return popAlert("¡You forgot something!");
+   }
+   else if (password != password2) {
+      return popAlert("¡Your password doesn't match!");
+   }
+   var hello = axios.get(`https://tinalandia.herokuapp.com/users?username=${username}`)
+
+      .then(response => {
+
+         if (response.data.length == 0) {
+
+            let json = { username:username, email:email, password:password} 
+
+            axios.post(`https://tinalandia.herokuapp.com/users`, json)
+               .then(response => {
+                  alert(`Welcome ${username}, an email has been sent to your email address`)
+                  window.location.href = "web.html"
+
+               })
+               .catch(err => {
+                  console.log(err)
+               })
+         }
+         else return popAlert("¡Taken username!");
+      })
+
+      .catch(err => {
+
+         console.log(err)
+
+
+      })
 };
 
 const handleSubmitGetFormData = e => {
-   
+
    e.preventDefault();
 
    var element = document.getElementById('form-alert');
    var wrapper = document.getElementById('form');
    var user = document.getElementById("user").value;
    var pass = document.getElementById("pass").value;
-   var fields = [user,pass]
-   const popAlert = () => {
-       if(element) return;
-       var section = document.createElement('section');
-       var alert = document.createElement('div');
-       section.id = "form-alert";
-       section.className = "col-10";
-       alert.className = "alert alert-danger text-center";
-       alert.innerHTML = "¡You forgot something!";
-       section.appendChild(alert);
-       wrapper.insertBefore(section, wrapper.lastChild);
+   var fields = [user, pass]
+   const popAlert = (str) => {
+      if (element) return;
+      var section = document.createElement('section');
+      var alert = document.createElement('div');
+      section.id = "form-alert";
+      section.className = "col-10";
+      alert.className = "alert alert-danger text-center";
+      alert.innerHTML = str;
+      section.appendChild(alert);
+      wrapper.insertBefore(section, wrapper.lastChild);
    };
-   
+
    const cleanAlert = () => {
-       if(!element) return;
-       wrapper.removeChild(element);
+      if (!element) return;
+      wrapper.removeChild(element);
    };
 
    fields.pop(); // eliminem el botó
 
-   if(isEmpty(user)  || isEmpty(pass)){
-      return popAlert();
-   }else cleanAlert();
-  
-  //hacer control de user
-  window.location.href = "web.html"
+   if (isEmpty(user) || isEmpty(pass)) {
+      cleanAlert();
+      return popAlert("¡You forgot something!");
+   }
+   var hello = axios.get(`https://tinalandia.herokuapp.com/users?username=${user}`)
+
+      .then(response => {
+
+         if (response.data.length == 0) {
+
+            popAlert("¡Wrong username/password!");
+            //user dones't exist
+
+         }
+         else if (pass === response.data[0].password) {
+            activeUser = user
+            cleanAlert();
+            alert(`Welcome ${user}`);
+          
+            window.location.href = "web.html" //nice password
+
+         }
+         else {
+            cleanAlert();
+            popAlert("¡Wrong username/password!"); //wrong password
+         }
+      })
+
+      .catch(err => {
+
+         console.log(err)
+
+
+      })
+
 
 };
 
+window.onload = function () {
 
-window.onload = function() {
+   var hello = axios.get(`https://tinalandia.herokuapp.com/cards`)
    
+   .then(response => {
+
+      for (let i = 0; i < response.data.length; i++) {
+         $("#render").append(`
+       <div class="col pad">
+       <div class="card text-white bg-dark mb-3" style="width: 18rem;">
+         <img src=${response.data[i].url} class="card-img-top demo" alt="${response.data[i].title}">
+         <div class="card-body demo">
+           <h5 class="card-title">${response.data[i].price}€</h5>
+           <p class="card-text">${response.data[i].title}</p>
+         </div>
+         <div class="middle">
+            <div class="text">Contact at ${response.data[i].contact}</div>
+         </div>
+         <div class="phoneonly">Click for contact info</div>
+       </div>
+     </div>
+         
+      `);
+      }
+   })
+
+   .catch(err => {
+
+      console.log(err)
 
 
-   var ima = ["https://i.pinimg.com/564x/74/4c/52/744c52ee7d5e6e98f6d325d3509ba203.jpg", 
-"https://i.pinimg.com/564x/54/40/a3/5440a34828b77f8440ba4012b8b7847a.jpg",
-"https://i.pinimg.com/564x/02/05/25/02052548ce19de86672c62d91876cd08.jpg",
-"https://i.pinimg.com/564x/93/a6/99/93a699472f76ab7f0b5a6f49c079a8a0.jpg",
-"https://i.pinimg.com/564x/3e/de/4b/3ede4b9a2a4ca6dd08d6aaf38352a422.jpg",
-"https://i.pinimg.com/564x/ec/87/7a/ec877a1dd3084e7b4d6f81b8c54c38de.jpg",
-"https://i.pinimg.com/564x/69/be/65/69be65a375a2aea7be2fbe5bf1c17305.jpg",
-"https://i.pinimg.com/564x/97/8a/90/978a90576e0f0ae7cca430c1e3b00fa1.jpg",
-"https://i.pinimg.com/564x/57/a0/d6/57a0d6b53e0604a0db6a1f3b05b59282.jpg",
-"https://m.media-amazon.com/images/I/61nt34iuBkL._SS500_.jpg",
-"https://m.media-amazon.com/images/I/61nt34iuBkL._SS500_.jpg",
-"https://m.media-amazon.com/images/I/61nt34iuBkL._SS500_.jpg"];
-   var price = ["20€","15€","24€","20€","15€","24€","20€","15€","24€","Unavailable","Unavailable","Unavailable"];
-   var title = ["Art print of Noelle Silva","Art print of Luchia Nanami",
-"Art print of bunny girl","Art print of Miroku","Art print of Sango","Art print of Kagome",
-"Art print of Ban","Art print of Kochou Shinobu","Art print of Ginger","Coming soon","Coming soon","Coming soon"];
-   var what = "Add to cart";
+   })
 
-   for (let i = 0; i < 12; i++){
-    $("#render").append(`
-    <div class="col pad">
-    <div class="card text-white bg-dark mb-3" style="width: 18rem;">
-      <img src=${ima[i]} class="card-img-top" alt="Noelle">
-      <div class="card-body">
-        <h5 class="card-title">${price[i]}</h5>
-        <p class="card-text">${title[i]}</p>
-        <div class="input-group mb-3"> <span class="input-group-text">+</span> <input type="text" class="form-control" value="1"> <span class="input-group-text">-</span> </div> 
-        <a href="#" class="btn btn-primary">${what}</a>
-      </div>
-    </div>
-  </div>
-      
-   `);
-   }
-
-   
 }
