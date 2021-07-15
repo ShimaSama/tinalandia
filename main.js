@@ -1,39 +1,43 @@
 
-
-
 function isEmpty(str) {
-   return (!str.trim().length || str === null); //mirar tambien fdf.value === null
+   return (!str.trim().length || str === null);
 }
 
-window.addEventListener("load", () => {
-   document.getElementById("form")
-      .addEventListener('submit', handleSubmitGetFormData);
+window.addEventListener("load", () => { /*login*/
+   try {
+      document.getElementById("form")
+         .addEventListener('submit', handleSubmitGetFormData);
+   }
+   catch (err) { }
 });
 
-window.addEventListener("load", () => {
-   document.getElementById("reg")
-      .addEventListener('submit', handleRegister);
+window.addEventListener("load", () => { /*register*/
+   try {
+      document.getElementById("reg")
+         .addEventListener('submit', handleRegister);
+   }
+   catch (err) { }
+
 });
 
-window.addEventListener("load", () => {
-   document.getElementById("addcard")
-      .addEventListener('submit', handleAddCard);
+window.addEventListener("load", () => { /*AddCard*/
+   try {
+      document.getElementById("addcard")
+         .addEventListener('submit', handleAddCard);
+   }
+   catch (err) { }
 });
 
 const handleAddCard = e => {
- 
+
    e.preventDefault();
 
-   var element = document.getElementById('form-alert');
-   var wrapper = document.getElementById('addcard');
    var photo = document.getElementById("photo").value;
    var price = document.getElementById("price").value;
    var title = document.getElementById("title").value;
    var contact = document.getElementById("contact").value;
 
-   var fields = [photo,price,title,contact]
-   console.log(fields)
-
+   var fields = [photo, price, title, contact];
 
    fields.pop(); // eliminem el botó
 
@@ -41,21 +45,21 @@ const handleAddCard = e => {
       alert("¡You forgot something!");
    }
 
-   let json = { url:photo, title:title, price:price, contact:contact} 
+   let json = { url: photo, title: title, price: price, contact: contact }
    axios.post(`https://tinalandia.herokuapp.com/cards`, json)
-   .then(response => {
-      alert(`Card added`)
-      location.reload();
-   })
-   .catch(err => {
-      console.log(err)
-   })
-  
+      .then(response => {
+         alert(`Card added`)
+         location.reload();
+      })
+      .catch(err => {
+         console.log(err)
+      })
+
 };
 
 
 const handleRegister = e => {
- 
+
    e.preventDefault();
 
    var element = document.getElementById('form-alert');
@@ -99,7 +103,7 @@ const handleRegister = e => {
 
          if (response.data.length == 0) {
 
-            let json = { username:username, email:email, password:password} 
+            let json = { username: username, email: email, password: password }
 
             axios.post(`https://tinalandia.herokuapp.com/users`, json)
                .then(response => {
@@ -168,7 +172,7 @@ const handleSubmitGetFormData = e => {
             activeUser = user
             cleanAlert();
             alert(`Welcome ${user}`);
-          
+
             window.location.href = "web.html" //nice password
 
          }
@@ -191,11 +195,11 @@ const handleSubmitGetFormData = e => {
 window.onload = function () {
 
    var hello = axios.get(`https://tinalandia.herokuapp.com/cards`)
-   
-   .then(response => {
 
-      for (let i = 0; i < response.data.length; i++) {
-         $("#render").append(`
+      .then(response => {
+
+         for (let i = 0; i < response.data.length; i++) {
+            $("#render").append(`
        <div class="col pad">
        <div class="card text-white bg-dark mb-3" style="width: 18rem;">
          <img src=${response.data[i].url} class="card-img-top demo" alt="${response.data[i].title}">
@@ -211,14 +215,14 @@ window.onload = function () {
      </div>
          
       `);
-      }
-   })
+         }
+      })
 
-   .catch(err => {
+      .catch(err => {
 
-      console.log(err)
+         console.log(err)
 
 
-   })
+      })
 
 }

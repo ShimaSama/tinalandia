@@ -1,3 +1,10 @@
+
+body.web{
+
+    background-color:rgb(26, 26, 26);
+    font-family: "Roboto Mono" !important;
+}
+
 /*NAV*/
 
 #navbarNav{
@@ -10,12 +17,27 @@ a.nav-link.active{
    font-size: 120% !important;
    font-weight: bold !important;
 }
+
+a:link{
+    color: rgb(247, 136, 85)!important;
+
+}
+a:visited{
+    color: rgb(247, 136, 85)!important;
+
+}
+a:hover {
+    color:rgb(243, 172, 145) !important;
+
+}
+/*arrow*/
 .jumbutron{
 
     height: 100vh;
     
 }
 
+/*title*/
 .name{
 
     padding-left: 2em;
@@ -28,24 +50,18 @@ a.nav-link.active{
 
     to { color: rgb(255, 255, 255); }
 }
-
-body.web{
-
-    background-color:rgb(26, 26, 26);
-    font-family: "Roboto Mono" !important;
+h1{
+    animation-name: colorchange;
+    animation-duration: 5s;
+    display: inline;
+    color: rgb(255, 255, 255);
+    padding: 7em;
+    text-align: center;
+    
 }
 
-a:link{
-    color: rgb(247, 136, 85)!important;
 
-}
-a:visited{
-    color: rgb(247, 136, 85)!important;
-
-}
-a:hover {
-    color:rgb(243, 172, 145) !important;
-}
+/*stuff with cards*/
 
 .card{
     margin: auto;
@@ -53,10 +69,7 @@ a:hover {
     min-height: 430px !important;
    /* max-height: 350px;*/
   
-    
-
 }
-
 
 .phoneonly {
     display: none;
@@ -80,7 +93,7 @@ a:hover {
     height: auto;
     transition: .5s ease;
     backface-visibility: hidden;
-  }
+}
 .middle{
 
     transition: .5s ease;
@@ -93,8 +106,6 @@ a:hover {
     text-align: center;
 } 
 
-
-
 .card:hover .demo {
     opacity: 0.3;
   }
@@ -102,6 +113,7 @@ a:hover {
 .card:hover .middle {
     opacity: 1;
   }
+  
 .text {
     background-color: #000000;
     color: white;
@@ -127,12 +139,6 @@ a:hover {
     min-width:100%;
 }
 
-@media (max-width:576px) {
-    #carouselExampleCaptions {
-        display:none !important;
-    }
-}
-
 th{
 
  color: rgb(241, 171, 131);
@@ -147,8 +153,7 @@ p{
 }
 ul{
     color: white;
-    list-style-type: none;
-    
+    list-style-type: none;  
 }
 h3
 {
@@ -158,18 +163,10 @@ h3
 
 }
 
-h1{
-    animation-name: colorchange;
-    animation-duration: 5s;
-    display: inline;
-    color: rgb(255, 255, 255);
-    padding: 7em;
-    text-align: center;
-    
-}
 h5{
     text-align: center;
 }
+
 h4{
     color:white;
     padding-top: 1em !important;
@@ -178,6 +175,7 @@ h4{
     
   
 }
+
 .arrow{
   
     width: 50px;
